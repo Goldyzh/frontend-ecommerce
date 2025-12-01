@@ -19,7 +19,12 @@ export default function CategoriesNavbar({ name, link, image }) {
 
   return (
     <>
-      <Link to={link}>
+      <Link
+        to={link}
+        style={{
+          textDecoration: "none",
+        }}
+      >
         <button
           style={{
             fontSize: "30px",
@@ -27,9 +32,25 @@ export default function CategoriesNavbar({ name, link, image }) {
             border: "none",
             cursor: "pointer",
             color: isActive ? "white" : "gray",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "10px",
           }}
         >
-          {image && <img src={image} alt={name} style={{ width: "50px", height: "50px", marginRight: "10px" }} />}
+          {image && (
+            <img
+              src={image}
+              alt={name}
+              style={{
+                width: "120px",
+                height: "120px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+          )}
           {name}
         </button>
       </Link>

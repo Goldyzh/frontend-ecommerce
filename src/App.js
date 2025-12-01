@@ -9,6 +9,7 @@ import CategoriesNavbar from "./CategoriesNavbar";
 import Container from "@mui/material/Container";
 import React, { useState, useEffect } from "react";
 import Category from "./Category";
+import { Typography } from "@mui/material";
 
 // async function getCategories() {
 //   console.log("clicked");
@@ -66,11 +67,18 @@ function App() {
       return null; // Or a loading indicator, or a message
     }
     return categories.map((category) => (
-      <li key={category._id}>
+      <li
+        key={category._id}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
         <CategoriesNavbar
           name={category.name}
           link={`/categories/${category.slug}`}
-          image={category.image}
+          image={isHome ? category.image : null}
         />
       </li>
     ));
@@ -96,24 +104,34 @@ function App() {
       {/* navbar */}
       <PrimarySearchAppBar />
       {/* navbar */}
-      {/* ROUTES */}
-      <div style={{ fontSize: "30px" }}>
+
+      {/* categories */}
+      <div style={{ fontSize: "30px", paddingRight: "200px" }}>
+        <Typography
+          sx={{ fontSize: "25px", justifyContent: "end", display: "flex" }}
+        >
+          categories
+        </Typography>
         <ul
           style={{
             display: "flex",
             justifyContent: "flex-end",
             listStyle: "none",
-            padding: 0,
+            paddingTop: "1%",
             marginTop: 0,
             backgroundColor: !isHome
               ? "rgba(255, 255, 255, 0.5)"
               : "transparent",
-            paddingRight: "10%",
+            paddingRight: "5%",
+            gap: "8%",
           }}
         >
           {renderCategories()}
         </ul>
       </div>
+      {/* categories */}
+
+      {/* ROUTES */}
       <Container maxWidth="xl">
         <Routes>
           <Route path="/hello" element={<Hello />} />
