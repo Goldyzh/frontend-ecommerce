@@ -11,7 +11,7 @@ import axios from "axios";
 import Grid from "@mui/material/Grid";
 import StarIcon from "@mui/icons-material/Star";
 
-export default function Product({ categoryId }) {
+export default function ProductCart({ categoryId }) {
   const [products, setproducts] = useState([]);
 
   useEffect(() => {
