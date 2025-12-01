@@ -4,12 +4,21 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import CardActionArea from "@mui/material/CardActionArea";
+
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import StarIcon from "@mui/icons-material/Star";
+import productPage from "./ProductPage";
+
+function handleClick(product) {
+  // alert(product._id);
+
+  productPage({ product });
+}
 
 export default function ProductCart({ categoryId }) {
   const [products, setproducts] = useState([]);
@@ -37,15 +46,41 @@ export default function ProductCart({ categoryId }) {
       return null; // Or a loading indicator, or a message
     }
     return products.map((product) => (
-      <Grid item key={product._id} xs={1} sm={2} md={3} lg={4}>
+      <Grid key={product._id} sm={4} md={3} lg={3}>
         <Card sx={{ width: 320, height: 400 }}>
-          <CardMedia
-            component="img"
-            height="194"
-            image={product.imageCoverUrl}
-            alt="Paella dish"
-          />
-          <CardContent>
+          <CardActionArea onClick={() => handleClick(product)}>
+            <CardMedia
+              component="img"
+              height="194"
+              image={product.imageCoverUrl}
+              alt="Paella dish"
+            />
+            <CardContent>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                {product.title}
+              </Typography>
+              <div
+                style={{
+                  jsutifyConetent: "center",
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "end",
+                }}
+              >
+                <Typography variant="body5" sx={{ color: "gold" }}>
+                  {product.ratingsAverage}
+                </Typography>
+                <StarIcon style={{ color: "gold" }} />
+              </div>
+              <Typography
+                variant="body5"
+                sx={{ display: "flex", marginTop: 0, paddingLeft: "5px" }}
+              >
+                {`${product.price}$`}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions disableSpacing>
             <IconButton
               aria-label="add to favorites"
               sx={{
@@ -56,30 +91,7 @@ export default function ProductCart({ categoryId }) {
             >
               <FavoriteBorderIcon />
             </IconButton>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              {product.title}
-            </Typography>
-            <div
-              style={{
-                jsutifyConetent: "center",
-                display: "flex",
-                alignItems: "start",
-                justifyContent: "end",
-              }}
-            >
-              <Typography variant="body5" sx={{ color: "gold" }}>
-                {product.ratingsAverage}
-              </Typography>
-              <StarIcon style={{ color: "gold" }} />
-            </div>
-            <Typography
-              variant="body5"
-              sx={{ display: "flex", marginTop: 0, paddingLeft: "5px" }}
-            >
-              {`${product.price}$`}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing></CardActions>
+          </CardActions>
         </Card>
       </Grid>
     ));
