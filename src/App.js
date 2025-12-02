@@ -11,26 +11,7 @@ import Container from "@mui/material/Container";
 import React, { useState, useEffect } from "react";
 import CategoryPage from "./categories/CategoryPage";
 import { renderProductRoute } from "./prodcuts/ProductCart";
-
-// async function getCategories() {
-//   console.log("clicked");
-//   try {
-//     const response = await axios.get("http://localhost:8000/api/v1/categories");
-//     console.log(response);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// getCategories();
-
-function currentPath(link, currentPath) {
-  if (currentPath === link) {
-    return true;
-  } else {
-    return false;
-  }
-}
+import { checkCurrentPath } from "./utilities/functions";
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -40,8 +21,8 @@ function App() {
 
   React.useEffect(() => {
     setIsHome(
-      currentPath("/", location.pathname) ||
-        currentPath("/home", location.pathname)
+      checkCurrentPath("/", location.pathname) ||
+        checkCurrentPath("/home", location.pathname)
     );
   }, [location.pathname]);
 
@@ -83,7 +64,7 @@ function App() {
     if (!Array.isArray(categories) || categories.length === 0) {
       return null; // Or a loading indicator, or a message
     }
-    const categoriesToDisplay = currentPath(
+    const categoriesToDisplay = checkCurrentPath(
       "/all-categories",
       location.pathname
     )
@@ -91,7 +72,7 @@ function App() {
       : categories.slice(0, 5);
     return (
       <>
-        {!currentPath("/all-categories", location.pathname) &&
+        {!checkCurrentPath("/all-categories", location.pathname) &&
           categories.length > 5 && (
             <li
               style={{
@@ -127,9 +108,7 @@ function App() {
     );
   };
 
-  console.log(categories);
-
-  const renderRoute = () => {
+  const renderCategoriesRoute = () => {
     if (!Array.isArray(categories) || categories.length === 0) {
       return null; // Or a loading indicator, or a message
     }
@@ -149,7 +128,7 @@ function App() {
       {/* navbar */}
 
       {/* categories */}
-      {!currentPath("/all-categories", location.pathname) && (
+      {!checkCurrentPath("/all-categories", location.pathname) && (
         <div
           style={{
             fontSize: "30px",
@@ -187,7 +166,7 @@ function App() {
           <Route path="/all-categories" element={<AllCategories />} />
 
           <Route path="*" element={<NotFound />} />
-          {renderRoute()}
+          {renderCategoriesRoute()}
           {renderProductRoute(products)}
         </Routes>
       </Container>
