@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  /* justify-content: center; */
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  /* min-width: 100vh; */
 }
 
 .App-logo {
@@ -36,3 +41,45 @@
     transform: rotate(360deg);
   }
 }
+
+.Categories {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  margin-top: 0;
+  padding-right: 200px;
+  height: fit-content;
+  margin-right: 200px;
+}
+
+.Categories.is-home {
+  gap: 8%;
+  background-color: transparent;
+}
+
+.Categories:not(.is-home) {
+  gap: 1%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.renderCategories {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* .most-sold-products-container {
+  display: flex;
+  flex-direction: column;
+  padding-right: 250px;
+  justify-content: center;
+  background-color: blue;
+  max-width: 70vwh;
+}
+
+.most-sold-title {
+  display: flex;
+  align-items: start;
+  align-content: start;
+  justify-content: end;
+} */

@@ -28,7 +28,10 @@ export const renderProductRoute = (products) => {
   ));
 };
 
-export default function ProductCart({ categoryId }) {
+export default function ProductCart({
+  categoryId = null,
+  sortedProducts = null,
+}) {
   const [products, setproducts] = useState([]);
   const navigate = useNavigate();
 
@@ -37,22 +40,30 @@ export default function ProductCart({ categoryId }) {
   };
 
   useEffect(() => {
-    const fetchproducts = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/products?category=${categoryId}`
-        );
-        setproducts(response.data.data);
+    if (categoryId != null) {
+      const fetchproducts = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8000/api/v1/products?category=${categoryId}`
+          );
+          setproducts(response.data.data);
 
-        // console.log(products.data.data[0].name);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-    fetchproducts();
+          // console.log(products.data.data[0].name);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      };
+      fetchproducts();
+    }
   }, [categoryId]);
 
-  console.log(products[0]);
+  useEffect(() => {
+    if (sortedProducts != null) {
+      setproducts(sortedProducts);
+    }
+  }, [sortedProducts]);
+
+  console.log(products);
 
   const renderProducts = () => {
     if (!Array.isArray(products) || products.length === 0) {

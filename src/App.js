@@ -1,23 +1,27 @@
 import "./App.css";
 import axios from "axios";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Hello from "./Hello";
-import Home from "./Home";
+import HomePage from "./HomePage";
 import NotFound from "./NotFound";
 import AllCategories from "./categories/AllCategories";
 import PrimarySearchAppBar from "./Navbar";
 import CategoriesNavbar from "./categories/CategoriesNavbar";
 import Container from "@mui/material/Container";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import CategoryPage from "./categories/CategoryPage";
 import { renderProductRoute } from "./prodcuts/ProductCart";
 import { checkCurrentPath } from "./utilities/functions";
+import ProductCart from "./prodcuts/ProductCart";
+import { Typography } from "@mui/material";
+import AllProducts from "./prodcuts/AllProducts";
 
 function App() {
   const [categories, setCategories] = useState([]);
 
   const [isHome, setIsHome] = React.useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     setIsHome(
@@ -41,6 +45,14 @@ function App() {
     };
     fetchProducts();
   }, []);
+
+  const topFourMostSoldProducts = useMemo(() => {
+    if (!Array.isArray(products) || products.length === 0) {
+      return [];
+    }
+    const sortedProducts = [...products].sort((a, b) => b.sold - a.sold);
+    return sortedProducts.slice(0, 4);
+  }, [products]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -74,13 +86,7 @@ function App() {
       <>
         {!checkCurrentPath("/all-categories", location.pathname) &&
           categories.length > 5 && (
-            <li
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
+            <li className="renderCategories">
               <CategoriesNavbar
                 name="Show More"
                 link="/all-categories"
@@ -89,14 +95,7 @@ function App() {
             </li>
           )}
         {categoriesToDisplay.map((category) => (
-          <li
-            key={category._id}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
+          <li key={category._id} className="renderCategories">
             <CategoriesNavbar
               name={category.name}
               link={`/categories/${category.slug}`}
@@ -121,12 +120,16 @@ function App() {
     ));
   };
 
+  const showAllProductsByMostSold = (products) => {
+    navigate("/all-products");
+    // AllProducts(products);  // This line is no longer needed
+  };
+
   return (
     <div className="App">
-      {/* navbar */}
+      {/* Navbar */}
       <PrimarySearchAppBar />
-      {/* navbar */}
-
+      {/* Navbar */}
       {/* categories */}
       {!checkCurrentPath("/all-categories", location.pathname) && (
         <div
@@ -135,35 +138,72 @@ function App() {
             paddingTop: "10px",
           }}
         >
-          <ul
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              listStyle: "none",
-              marginTop: 0,
-              backgroundColor: !isHome
-                ? "rgba(255, 255, 255, 0.5)"
-                : "transparent",
-              paddingRight: "200px",
-              gap: isHome ? "8%" : "1%",
-              height: "fit-content",
-            }}
-          >
-            {renderCategories()}
+          <Typography style={{ marginLeft: "300px" }} variant="h4">
+            Categories
+          </Typography>
+
+          <ul className={`Categories ${isHome ? "is-home" : ""}`} style={{}}>
+            {typeof renderCategories === "function" ? renderCategories() : null}
           </ul>
         </div>
       )}
       {/* categories */}
 
-      {/* ROUTES */}
+      {/* Most Sold */}
+      {isHome ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignContent: "start",
+            alignItems: "center",
+          }}
+        >
+          <button
+            style={{
+              color: "gray",
+              backgroundColor: "transparent",
+              border: "none",
+              fontSize: "30px",
+              margin: "3%",
+            }}
+            onClick={() => showAllProductsByMostSold(products)}
+          >
+            Show More
+          </button>
+          <div
+            className="renderCategories"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignContent: "center",
+              alignItems: "center",
+              paddingLeft: "50px",
+            }}
+          >
+            <Typography variant="h4">Most Sold</Typography>
+
+            <ProductCart sortedProducts={topFourMostSoldProducts} />
+          </div>
+        </div>
+      ) : null}
+
+      {/* Most Sold */}
+
       <Container maxWidth="xl">
         <Routes>
           <Route path="/hello" element={<Hello />} />
 
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
 
           <Route path="/all-categories" element={<AllCategories />} />
+          <Route
+            path="/all-products"
+            element={<AllProducts products={products} />}
+          />
 
           <Route path="*" element={<NotFound />} />
           {renderCategoriesRoute()}
