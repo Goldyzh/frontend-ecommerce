@@ -158,6 +158,7 @@ function App() {
             justifyContent: "center",
             alignContent: "start",
             alignItems: "center",
+            paddingRight: "50px",
           }}
         >
           <button
