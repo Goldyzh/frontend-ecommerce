@@ -10,9 +10,9 @@ import CategoriesNavbar from "./categories/CategoriesNavbar";
 import Container from "@mui/material/Container";
 import React, { useState, useEffect, useMemo } from "react";
 import CategoryPage from "./categories/CategoryPage";
-import { renderProductRoute } from "./prodcuts/ProductCart";
+import { renderProductRoute } from "./prodcuts/ProductCard";
 import { checkCurrentPath } from "./utilities/functions";
-import ProductCart from "./prodcuts/ProductCart";
+import ProductCard from "./prodcuts/ProductCard";
 import { Typography } from "@mui/material";
 import AllProducts from "./prodcuts/AllProducts";
 
@@ -186,7 +186,7 @@ function App() {
           >
             <Typography variant="h4">Most Sold</Typography>
 
-            <ProductCart sortedProducts={topFourMostSoldProducts} />
+            <ProductCard sortedProducts={topFourMostSoldProducts} />
           </div>
         </div>
       ) : null}

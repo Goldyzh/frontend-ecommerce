@@ -28,7 +28,7 @@ export const renderProductRoute = (products) => {
   ));
 };
 
-export default function ProductCart({
+export default function ProductCard({
   categoryId = null,
   sortedProducts = null,
 }) {
@@ -63,7 +63,7 @@ export default function ProductCart({
     }
   }, [sortedProducts]);
 
-  console.log(products);
+  console.log(`form prudct card`, products);
 
   const renderProducts = () => {
     if (!Array.isArray(products) || products.length === 0) {

@@ -1,6 +1,6 @@
 import Container from "@mui/material/Container";
 import { Typography } from "@mui/material";
-import ProductCart from "./ProductCart";
+import ProductCard from "./ProductCard";
 
 function AllProducts({ products }) {
   return (
@@ -18,7 +18,7 @@ function AllProducts({ products }) {
       >
         {products.map((product) => (
           <li key={product._id} style={{ margin: "10px" }}>
-            <ProductCart sortedProducts={product} />
+            <ProductCard sortedProducts={product} />
           </li>
         ))}
       </ul>
