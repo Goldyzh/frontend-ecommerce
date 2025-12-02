@@ -10,7 +10,7 @@ import CategoriesNavbar from "./categories/CategoriesNavbar";
 import Container from "@mui/material/Container";
 import React, { useState, useEffect } from "react";
 import CategoryPage from "./categories/CategoryPage";
-import { Typography } from "@mui/material";
+import { renderProductRoute } from "./prodcuts/ProductCart";
 
 // async function getCategories() {
 //   console.log("clicked");
@@ -44,6 +44,22 @@ function App() {
         currentPath("/home", location.pathname)
     );
   }, [location.pathname]);
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/v1/products"
+        );
+        setProducts(response.data.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -172,6 +188,7 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
           {renderRoute()}
+          {renderProductRoute(products)}
         </Routes>
       </Container>
     </div>

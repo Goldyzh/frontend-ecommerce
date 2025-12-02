@@ -12,16 +12,29 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import StarIcon from "@mui/icons-material/Star";
-import productPage from "./ProductPage";
+import ProductPage from "./ProductPage";
+import { Route, useNavigate } from "react-router-dom";
 
-function handleClick(product) {
-  // alert(product._id);
-
-  productPage({ product });
-}
+export const renderProductRoute = (products) => {
+  if (!Array.isArray(products) || products.length === 0) {
+    return null; // Or a loading indicator, or a message
+  }
+  return products.map((product) => (
+    <Route
+      key={product._id}
+      path={`/products/${product.slug}`}
+      element={<ProductPage product={product} />}
+    />
+  ));
+};
 
 export default function ProductCart({ categoryId }) {
   const [products, setproducts] = useState([]);
+  const navigate = useNavigate();
+
+  const openProductPage = (product) => {
+    navigate(`/products/${product.slug}`);
+  };
 
   useEffect(() => {
     const fetchproducts = async () => {
@@ -48,7 +61,7 @@ export default function ProductCart({ categoryId }) {
     return products.map((product) => (
       <Grid key={product._id} sm={4} md={3} lg={3}>
         <Card sx={{ width: 320, height: 400 }}>
-          <CardActionArea onClick={() => handleClick(product)}>
+          <CardActionArea onClick={() => openProductPage(product)}>
             <CardMedia
               component="img"
               height="194"
