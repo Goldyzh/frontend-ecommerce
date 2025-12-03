@@ -7,11 +7,11 @@ import AllCategories from "./categories/AllCategories";
 import Container from "@mui/material/Container";
 import React, { useContext } from "react";
 import { renderProductRoute } from "./prodcuts/ProductCard";
-import AllProducts from "./prodcuts/AllProducts";
 import { ProductsContext } from "./contexts/ProductsContext";
 import { renderCategoriesRoute } from "./categories/CategoryPage";
 import { CategoriesContext } from "./contexts/CategoriesContext";
 import PrimarySearchAppBar from "./Navbar";
+import MostSoldProducts from "./prodcuts/MostSoldProducts";
 
 function App() {
   const { products } = useContext(ProductsContext);
@@ -31,8 +31,8 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/all-categories" element={<AllCategories />} />
           <Route
-            path="/all-products"
-            element={<AllProducts products={products} />}
+            path="/most-sold-products"
+            element={<MostSoldProducts products={products} />}
           />
           <Route path="*" element={<NotFound />} />
           {renderCategoriesRoute(categories)}

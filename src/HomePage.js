@@ -68,7 +68,7 @@ function HomePage() {
   };
 
   const showAllProductsByMostSold = (products) => {
-    navigate("/all-products");
+    navigate("/most-sold-products");
   };
 
   return (
