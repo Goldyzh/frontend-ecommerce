@@ -8,12 +8,14 @@ import CardActionArea from "@mui/material/CardActionArea";
 
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import StarIcon from "@mui/icons-material/Star";
 import ProductPage from "./ProductPage";
 import { Route, useNavigate } from "react-router-dom";
+import { hostname } from "../settings";
+import { ProductsContext } from "../contexts/ProductsContext";
 
 export const renderProductRoute = (products) => {
   if (!Array.isArray(products) || products.length === 0) {
@@ -32,8 +34,12 @@ export default function ProductCard({
   categoryId = null,
   sortedProducts = null,
 }) {
-  const [products, setproducts] = useState([]);
+  const { products: globalProducts } = useContext(ProductsContext);
+  const [fetchedProducts, setFetchedProducts] = useState([]);
   const navigate = useNavigate();
+
+  const products =
+    sortedProducts || (categoryId ? fetchedProducts : globalProducts);
 
   const openProductPage = (product) => {
     navigate(`/products/${product.slug}`);
@@ -44,11 +50,9 @@ export default function ProductCard({
       const fetchproducts = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8000/api/v1/products?category=${categoryId}`
+            `${hostname}/api/v1/products?category=${categoryId}`
           );
-          setproducts(response.data.data);
-
-          // console.log(products.data.data[0].name);
+          setFetchedProducts(response.data.data);
         } catch (error) {
           console.error("Error fetching products:", error);
         }
@@ -56,14 +60,6 @@ export default function ProductCard({
       fetchproducts();
     }
   }, [categoryId]);
-
-  useEffect(() => {
-    if (sortedProducts != null) {
-      setproducts(sortedProducts);
-    }
-  }, [sortedProducts]);
-
-  console.log(`form prudct card`, products);
 
   const renderProducts = () => {
     if (!Array.isArray(products) || products.length === 0) {

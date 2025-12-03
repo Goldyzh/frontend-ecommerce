@@ -1,7 +1,5 @@
-import * as React from "react";
 import { Route } from "react-router-dom";
-
-import ProductCard from "../prodcuts/ProductCard";
+import CategoryPage from "../categories/CategoryPage";
 
 export const renderCategoriesRoute = (categories) => {
   if (!Array.isArray(categories) || categories.length === 0) {
@@ -15,12 +13,3 @@ export const renderCategoriesRoute = (categories) => {
     />
   ));
 };
-
-export default function CategoryPage({ category }) {
-  return (
-    <>
-      <h1>{category.name} Category </h1>
-      <ProductCard categoryId={category._id} />
-    </>
-  );
-}
