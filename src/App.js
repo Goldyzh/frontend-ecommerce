@@ -12,6 +12,7 @@ import { renderCategoriesRoute } from "./categories/CategoryPage";
 import { CategoriesContext } from "./contexts/CategoriesContext";
 import PrimarySearchAppBar from "./Navbar";
 import MostSoldProducts from "./prodcuts/MostSoldProducts";
+import SearchResults from "./prodcuts/SearchResults";
 
 function App() {
   const { products } = useContext(ProductsContext);
@@ -31,6 +32,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/all-categories" element={<AllCategories />} />
           <Route path="/most-sold-products" element={<MostSoldProducts />} />
+          <Route path="/search-results" element={<SearchResults />} />
           <Route path="*" element={<NotFound />} />
           {renderCategoriesRoute(categories)}
           {renderProductRoute(products)}
