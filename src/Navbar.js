@@ -19,6 +19,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Paper from "@mui/material/Paper";
+import { UserContext } from "./contexts/UserContext";
+import { useContext } from "react";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -66,6 +70,26 @@ export default function PrimarySearchAppBar() {
   const [showSuggestions, setShowSuggestions] = React.useState(false);
   const { setProducts } = React.useContext(ProductsContext);
   const navigate = useNavigate();
+
+  const { user, setUser } = useContext(UserContext);
+
+  let isLoggedIn = user !== null ? true : false;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    setAnchorEl(null);
+    navigate("/login");
+  };
 
   const searchProducts = async (query) => {
     try {
@@ -125,17 +149,60 @@ export default function PrimarySearchAppBar() {
           ></IconButton>
 
           {/* Cart */}
-          <IconButton style={{ color: "white" }}>
+          <IconButton
+            onClick={() => navigate("/cart")}
+            style={{ color: "white" }}
+          >
             <Typography variant="h6">Cart</Typography>
             <ShoppingCartIcon />
           </IconButton>
           {/* Cart */}
 
           {/* Login */}
-          <IconButton style={{ color: "white", paddingRight: "20px" }}>
-            <Typography variant="h6">Login</Typography>
-            <AccountCircleIcon />
-          </IconButton>
+          {isLoggedIn ? (
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircleIcon />
+                <Typography variant="h6" sx={{ ml: 1 }}>
+                  {user.name}
+                </Typography>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <IconButton style={{ color: "white", paddingRight: "20px" }}>
+                <Typography variant="h6">Login</Typography>
+                <AccountCircleIcon />
+              </IconButton>
+            </Link>
+          )}
           {/* Login */}
 
           <Search sx={{ flexGrow: 250, marginLeft: "", cursor: "pointer" }}>

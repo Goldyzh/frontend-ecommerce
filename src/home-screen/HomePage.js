@@ -1,12 +1,12 @@
-import "./App.css";
+import "../App.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import CategoriesNavbar from "./categories/CategoriesNavbar";
+import CategoriesNavbar from "../categories/CategoriesNavbar";
 import React, { useMemo, useContext } from "react";
-import { checkCurrentPath } from "./utilities/functions";
-import ProductCard from "./prodcuts/ProductCard";
+import { checkCurrentPath } from "../utilities/functions";
+import ProductCard from "../prodcuts/ProductCard";
 import { Typography } from "@mui/material";
-import { ProductsContext } from "./contexts/ProductsContext";
-import { CategoriesContext } from "./contexts/CategoriesContext";
+import { ProductsContext } from "../contexts/ProductsContext";
+import { CategoriesContext } from "../contexts/CategoriesContext";
 
 function HomePage() {
   const { categories } = useContext(CategoriesContext);
