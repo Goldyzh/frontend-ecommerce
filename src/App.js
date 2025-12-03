@@ -30,10 +30,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/all-categories" element={<AllCategories />} />
-          <Route
-            path="/most-sold-products"
-            element={<MostSoldProducts products={products} />}
-          />
+          <Route path="/most-sold-products" element={<MostSoldProducts />} />
           <Route path="*" element={<NotFound />} />
           {renderCategoriesRoute(categories)}
           {renderProductRoute(products)}

@@ -3,8 +3,12 @@ import { Typography } from "@mui/material";
 
 import { useMemo } from "react";
 import ProductCard from "./ProductCard";
+import { ProductsContext } from "../contexts/ProductsContext";
+import { useContext } from "react";
 
-function MostSoldProducts({ products }) {
+function MostSoldProducts() {
+  const { products } = useContext(ProductsContext);
+
   const MostSoldProductsList = useMemo(() => {
     if (!Array.isArray(products) || products.length === 0) {
       return [];
@@ -18,18 +22,11 @@ function MostSoldProducts({ products }) {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" gutterBottom>
-        All prodcuts
+        Most Sold Products
       </Typography>
-      <ul
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          listStyle: "none",
-          padding: 0,
-        }}
-      >
+      <ul>
         <li>
-          <ProductCard sortedProducts={MostSoldProductsList} />
+          <ProductCard sortedProducts={MostSoldProductsList} fixedSize={true} />
         </li>
       </ul>
     </Container>

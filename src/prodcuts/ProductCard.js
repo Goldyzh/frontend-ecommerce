@@ -33,6 +33,7 @@ export const renderProductRoute = (products) => {
 export default function ProductCard({
   categoryId = null,
   sortedProducts = null,
+  fixedSize = false,
 }) {
   const { products: globalProducts } = useContext(ProductsContext);
   const [fetchedProducts, setFetchedProducts] = useState([]);
@@ -67,7 +68,13 @@ export default function ProductCard({
     }
     return products.map((product) => (
       <Grid item key={product._id} xs={12} sm={3} md={3} lg={3}>
-        <Card sx={{ width: "100%", maxWidth: 320, height: 400 }}>
+        <Card
+          sx={{
+            width: fixedSize ? 320 : "100%",
+            maxWidth: 320,
+            height: 400,
+          }}
+        >
           <CardActionArea onClick={() => openProductPage(product)}>
             <CardMedia
               component="img"

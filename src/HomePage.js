@@ -94,23 +94,14 @@ function HomePage() {
 
       {/* Most Sold */}
 
-      <div className="MostSoldHomePage">
+      <div className="MostSoldHomePageContainer">
         <button
           className="showMoreButton"
           onClick={() => showAllProductsByMostSold(products)}
         >
           Show More
         </button>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingLeft: "30px",
-            width: "100%",
-          }}
-        >
+        <div className="MostSoldHomePage">
           <Typography style={{ marginRight: "90px" }} variant="h4">
             Most Sold
           </Typography>

@@ -67,12 +67,21 @@
   flex-direction: column;
 }
 
-.MostSoldHomePage {
+.MostSoldHomePageContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-right: 0px;
+}
+
+.MostSoldHomePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 30px;
+  width: 100%;
 }
 
 .showMoreButton {
