@@ -11,6 +11,7 @@ import AllProducts from "./prodcuts/AllProducts";
 import { ProductsContext } from "./contexts/ProductsContext";
 import { renderCategoriesRoute } from "./categories/CategoryPage";
 import { CategoriesContext } from "./contexts/CategoriesContext";
+import PrimarySearchAppBar from "./Navbar";
 
 function App() {
   const { products } = useContext(ProductsContext);
@@ -18,7 +19,12 @@ function App() {
 
   return (
     <div className="App">
-      <Container maxWidth="xl">
+      {/* Navbar */}
+      <PrimarySearchAppBar />
+      {/* Navbar */}
+      {/* HomePage */}
+      <Container className="HomePage" maxWidth="xl">
+        {/* Routes */}
         <Routes>
           <Route path="/hello" element={<Hello />} />
           <Route path="/" element={<HomePage />} />
@@ -32,7 +38,9 @@ function App() {
           {renderCategoriesRoute(categories)}
           {renderProductRoute(products)}
         </Routes>
+        {/* Routes */}
       </Container>
+      {/* HomePage */}
     </div>
   );
 }

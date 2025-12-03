@@ -66,8 +66,8 @@ export default function ProductCard({
       return null; // Or a loading indicator, or a message
     }
     return products.map((product) => (
-      <Grid key={product._id} sm={4} md={3} lg={3}>
-        <Card sx={{ width: 320, height: 400 }}>
+      <Grid item key={product._id} xs={12} sm={3} md={3} lg={3}>
+        <Card sx={{ width: "100%", maxWidth: 320, height: 400 }}>
           <CardActionArea onClick={() => openProductPage(product)}>
             <CardMedia
               component="img"

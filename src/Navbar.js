@@ -75,7 +75,7 @@ export default function PrimarySearchAppBar() {
             <AccountCircleIcon />
           </IconButton>
 
-          <Search sx={{ flexGrow: 16 }}>
+          <Search sx={{ flexGrow: 16, paddingLeft: "60px" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

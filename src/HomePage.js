@@ -1,6 +1,5 @@
 import "./App.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import PrimarySearchAppBar from "./Navbar";
 import CategoriesNavbar from "./categories/CategoriesNavbar";
 import React, { useMemo, useContext } from "react";
 import { checkCurrentPath } from "./utilities/functions";
@@ -70,14 +69,10 @@ function HomePage() {
 
   const showAllProductsByMostSold = (products) => {
     navigate("/all-products");
-    // AllProducts(products);  // This line is no longer needed
   };
 
   return (
     <div className="HomePage">
-      {/* Navbar */}
-      <PrimarySearchAppBar />
-      {/* Navbar */}
       {/* categories */}
       {!checkCurrentPath("/all-categories", location.pathname) && (
         <div
@@ -86,7 +81,7 @@ function HomePage() {
             paddingTop: "10px",
           }}
         >
-          <Typography style={{ marginLeft: "300px" }} variant="h4">
+          <Typography style={{ marginLeft: "170px" }} variant="h4">
             Categories
           </Typography>
 
@@ -98,46 +93,31 @@ function HomePage() {
       {/* categories */}
 
       {/* Most Sold */}
-      {isHome ? (
+
+      <div className="MostSoldHomePage">
+        <button
+          className="showMoreButton"
+          onClick={() => showAllProductsByMostSold(products)}
+        >
+          Show More
+        </button>
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "center",
-            alignContent: "start",
             alignItems: "center",
-            paddingRight: "50px",
+            paddingLeft: "30px",
+            width: "100%",
           }}
         >
-          <button
-            style={{
-              color: "gray",
-              backgroundColor: "transparent",
-              border: "none",
-              fontSize: "30px",
-              margin: "3%",
-            }}
-            onClick={() => showAllProductsByMostSold(products)}
-          >
-            Show More
-          </button>
-          <div
-            className="renderCategories"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignContent: "center",
-              alignItems: "center",
-              paddingLeft: "50px",
-            }}
-          >
-            <Typography variant="h4">Most Sold</Typography>
+          <Typography style={{ marginRight: "90px" }} variant="h4">
+            Most Sold
+          </Typography>
 
-            <ProductCard sortedProducts={topFourMostSoldProducts} />
-          </div>
+          <ProductCard sortedProducts={topFourMostSoldProducts} />
         </div>
-      ) : null}
+      </div>
 
       {/* Most Sold */}
     </div>
