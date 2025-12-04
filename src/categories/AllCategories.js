@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import Container from "@mui/material/Container";
 import { Typography } from "@mui/material";
 import CategoriesNavbar from "./CategoriesNavbar";
+import { CategoriesContext } from "../contexts/CategoriesContext";
 
 function AllCategories() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/api/v1/categories"
-        );
-        setCategories(response.data.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const { categories } = useContext(CategoriesContext);
 
   return (
     <Container maxWidth="xl">
