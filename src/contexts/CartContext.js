@@ -48,14 +48,16 @@ export function CartProvider({ children }) {
 
   const updateCount = useCallback(async (itemId, count) => {
     const token = localStorage.getItem("token");
+    console.log("updateCount called for itemId:", itemId, "count:", count);
     try {
       const response = await axios.put(
         `${hostname}/api/v1/cart/${itemId}`,
-        { count },
+        { quantity: count },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log("updateCount response:", response.data);
       setCart(response.data.data);
     } catch (error) {
       console.error("Error updating count:", error);

@@ -9,10 +9,17 @@ import {
   Container,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-
-// import ProductCart from "./ProductCart";
+import { CartContext } from "../contexts/CartContext";
+import { useContext } from "react";
 
 export default function ProductPage({ product }) {
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = async () => {
+    await addToCart(product._id);
+    alert("Product added to cart");
+  };
+
   console.log(product);
   return (
     <Container maxWidth="md">
@@ -45,7 +52,12 @@ export default function ProductPage({ product }) {
           <Typography variant="h5" color="primary" sx={{ mt: 3 }}>
             Price: {product.price} $
           </Typography>
-          <Button variant="contained" color="primary" sx={{ mt: 3 }}>
+          <Button
+            onClick={() => handleAddToCart(product._id)}
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3 }}
+          >
             Add to Cart
           </Button>
         </Grid>
