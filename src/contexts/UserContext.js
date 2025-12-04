@@ -15,7 +15,8 @@ export function UserProvider({ children }) {
           const response = await axios.get(`${hostname}/api/v1/users/getMe`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setUser(response.data.data);
+          const { password, ...userWithoutPassword } = response.data.data;
+          setUser(userWithoutPassword);
         } catch (error) {
           console.error("Error fetching user:", error);
         }

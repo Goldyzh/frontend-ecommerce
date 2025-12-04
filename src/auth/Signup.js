@@ -34,30 +34,55 @@ const defaultTheme = createTheme({
 });
 
 export default function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [userSignupData, setUserSignupData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
+  const validate = () => {
+    const newErrors = {};
+    if (!userSignupData.name) {
+      newErrors.name = "Name is required";
+    }
+    if (!userSignupData.email) {
+      newErrors.email = "Email is required";
+    }
+    if (!userSignupData.password) {
+      newErrors.password = "Password is required";
+    }
+    if (!userSignupData.passwordConfirm) {
+      newErrors.passwordConfirm = "Confirm Password is required";
+    }
+    if (
+      userSignupData.password &&
+      userSignupData.passwordConfirm &&
+      userSignupData.password !== userSignupData.passwordConfirm
+    ) {
+      newErrors.passwordConfirm = "Passwords do not match";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!validate()) return;
     try {
       const response = await axios.post(`${hostname}/api/v1/auth/signup`, {
-        name,
-        email,
-        password,
-        passwordConfirm,
+        name: userSignupData.name,
+        email: userSignupData.email,
+        password: userSignupData.password,
+        passwordConfirm: userSignupData.passwordConfirm,
       });
       localStorage.setItem("token", response.data.token);
       const userData = response.data.data;
-      setUser({
-        name: userData.name,
-        email: userData.email,
-        wishlist: userData.wishlist,
-        _id: userData._id,
-      });
+      const { password, ...userWithoutPassword } = userData;
+      setUser(userWithoutPassword);
       navigate("/home");
     } catch (error) {
       console.error("Signup failed:", error);
@@ -117,9 +142,16 @@ export default function Signup() {
                     id="name"
                     label="Full Name"
                     autoFocus
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={userSignupData.name}
+                    onChange={(e) =>
+                      setUserSignupData({
+                        ...userSignupData,
+                        name: e.target.value,
+                      })
+                    }
                     variant="outlined"
+                    error={!!errors.name}
+                    helperText={errors.name}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -130,9 +162,16 @@ export default function Signup() {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={userSignupData.email}
+                    onChange={(e) =>
+                      setUserSignupData({
+                        ...userSignupData,
+                        email: e.target.value,
+                      })
+                    }
                     variant="outlined"
+                    error={!!errors.email}
+                    helperText={errors.email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -144,9 +183,16 @@ export default function Signup() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={userSignupData.password}
+                    onChange={(e) =>
+                      setUserSignupData({
+                        ...userSignupData,
+                        password: e.target.value,
+                      })
+                    }
                     variant="outlined"
+                    error={!!errors.password}
+                    helperText={errors.password}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -158,9 +204,16 @@ export default function Signup() {
                     type="password"
                     id="passwordConfirm"
                     autoComplete="new-password"
-                    value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                    value={userSignupData.passwordConfirm}
+                    onChange={(e) =>
+                      setUserSignupData({
+                        ...userSignupData,
+                        passwordConfirm: e.target.value,
+                      })
+                    }
                     variant="outlined"
+                    error={!!errors.passwordConfirm}
+                    helperText={errors.passwordConfirm}
                   />
                 </Grid>
               </Grid>

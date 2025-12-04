@@ -36,26 +36,41 @@ const defaultTheme = createTheme({
 });
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userLoginData, setUserLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
+  const [errors, setErrors] = useState({});
+  const validate = () => {
+    const newErrors = {};
+    if (!userLoginData.email) {
+      newErrors.email = "Email is required";
+    }
+    if (!userLoginData.password) {
+      newErrors.password = "Password is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!validate()) return;
     try {
       const response = await axios.post(`${hostname}/api/v1/auth/login`, {
-        email,
-        password,
+        email: userLoginData.email,
+        password: userLoginData.password,
       });
-      //   console.log(response.data);
+
       localStorage.setItem("token", response.data.token);
-      // localStorage.setItem("user", JSON.stringify(response.data.data.user));
       const userData = response.data.data;
       setUser({
         name: userData.name,
         email: userData.email,
-        wishlist: userData.wishlist,
         _id: userData._id,
       });
       navigate("/home");
@@ -116,9 +131,13 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={userLoginData.email}
+                onChange={(e) =>
+                  setUserLoginData({ ...userLoginData, email: e.target.value })
+                }
                 variant="outlined"
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 margin="normal"
@@ -129,9 +148,16 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={userLoginData.password}
+                onChange={(e) =>
+                  setUserLoginData({
+                    ...userLoginData,
+                    password: e.target.value,
+                  })
+                }
                 variant="outlined"
+                error={!!errors.password}
+                helperText={errors.password}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
