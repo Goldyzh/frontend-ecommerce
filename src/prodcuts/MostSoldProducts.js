@@ -17,7 +17,6 @@ function MostSoldProducts() {
     return sortedProducts;
   }, [products]);
 
-  console.log(MostSoldProductsList);
 
   return (
     <Container maxWidth="xl">

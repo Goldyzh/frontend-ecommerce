@@ -26,7 +26,6 @@ export default function ProductPage({ product }) {
     alert("Product added to cart");
   };
 
-  console.log(product);
   return (
     <Container maxWidth="md">
       <Grid container spacing={4} sx={{ mt: 4 }}>

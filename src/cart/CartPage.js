@@ -16,7 +16,6 @@ const CartItem = ({ item, updateCount, removeFromCart }) => {
   }, [item.quantity]);
 
   const handleUpdate = () => {
-    console.log("handleUpdate called with count:", count, "item:", item);
     if (count > 0) {
       updateCount(item._id, count);
     }

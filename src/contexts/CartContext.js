@@ -48,7 +48,6 @@ export function CartProvider({ children }) {
 
   const updateCount = useCallback(async (itemId, count) => {
     const token = localStorage.getItem("token");
-    console.log("updateCount called for itemId:", itemId, "count:", count);
     try {
       const response = await axios.put(
         `${hostname}/api/v1/cart/${itemId}`,
@@ -57,7 +56,6 @@ export function CartProvider({ children }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("updateCount response:", response.data);
       setCart(response.data.data);
     } catch (error) {
       console.error("Error updating count:", error);
@@ -111,8 +109,6 @@ export function CartProvider({ children }) {
       return false;
     }
   }, []);
-
-  console.log("cart: ", cart);
 
   useEffect(() => {
     if (user) {
