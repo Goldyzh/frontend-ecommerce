@@ -11,11 +11,17 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import { CartContext } from "../contexts/CartContext";
 import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export default function ProductPage({ product }) {
   const { addToCart } = useContext(CartContext);
+  const { user } = useContext(UserContext);
 
   const handleAddToCart = async () => {
+    if (!user) {
+      alert("Please login to add product to cart");
+      return;
+    }
     await addToCart(product._id);
     alert("Product added to cart");
   };
