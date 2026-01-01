@@ -126,7 +126,8 @@ export default function PrimarySearchAppBar() {
 
   const handleSuggestionClick = (suggestion) => {
     setSearchQuery(suggestion.title);
-    searchProducts(suggestion.title);
+    navigate(`/products/${suggestion.slug}`);
+    setShowSuggestions(false);
   };
 
   const handleKeyDown = (event) => {

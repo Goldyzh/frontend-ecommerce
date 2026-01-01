@@ -96,6 +96,7 @@
 @media (max-width: 600px) {
   .MostSoldHomePageContainer {
     flex-direction: column-reverse;
+    align-items: flex-end;
   }
 }
 

@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 export default function CartCard({
   item,
@@ -16,6 +17,12 @@ export default function CartCard({
   handleUpdate,
   removeFromCart,
 }) {
+  const navigate = useNavigate();
+
+  const handleProductClick = () => {
+    navigate(`/products/${productData.slug}`);
+  };
+
   return (
     <Paper
       elevation={0}
@@ -36,7 +43,9 @@ export default function CartCard({
           alignItems: "center",
           width: { xs: "100%", sm: "auto" },
           flexGrow: 1,
+          cursor: "pointer",
         }}
+        onClick={handleProductClick}
       >
         {/* Image */}
         <img
@@ -71,12 +80,22 @@ export default function CartCard({
           display: "flex",
           alignItems: "center",
           mt: { xs: 2, sm: 0 },
-          gap: 2,
+          width: { xs: "100%", sm: "auto" },
+          justifyContent: { xs: "space-between", sm: "flex-end" },
+          gap: { xs: 1, sm: 2 },
         }}
       >
         {/* Quantity */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography sx={{ mr: 1, fontWeight: "bold" }}>Quantity:</Typography>
+          <Typography
+            sx={{
+              mr: 1,
+              fontWeight: "bold",
+              display: { xs: "none", sm: "block" },
+            }}
+          >
+            Quantity:
+          </Typography>
           <TextField
             type="number"
             value={count}

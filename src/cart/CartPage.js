@@ -89,22 +89,21 @@ export default function CartPage() {
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ fontWeight: "bold", mb: 3, textAlign: "right" }}
+        sx={{
+          fontWeight: "bold",
+          mb: 3,
+          textAlign: { xs: "center", md: "right" },
+        }}
       >
         Your Shopping Cart
       </Typography>
       {/* Your Shopping Cart Typography*/}
 
-      <div style={{ flexDirection: "row", display: "flex", gap: "20px" }}>
-        {/* Cart Option */}
-        <CartOption
-          cart={cart}
-          handleApplyCoupon={handleApplyCoupon}
-          clearCart={clearCart}
-          couponCode={couponCode}
-          setCouponCode={setCouponCode}
-        />
-        {/* Cart Option */}
+      <Grid
+        container
+        spacing={3}
+        direction={{ xs: "column", md: "row-reverse" }}
+      >
         {/* Cart Items */}
         <Grid item xs={12} md={8}>
           {cart.cartItems.map((item) => (
@@ -117,7 +116,17 @@ export default function CartPage() {
           ))}
         </Grid>
         {/* Cart Items */}
-      </div>
+
+        {/* Cart Option */}
+        <CartOption
+          cart={cart}
+          handleApplyCoupon={handleApplyCoupon}
+          clearCart={clearCart}
+          couponCode={couponCode}
+          setCouponCode={setCouponCode}
+        />
+        {/* Cart Option */}
+      </Grid>
     </Container>
   );
 }

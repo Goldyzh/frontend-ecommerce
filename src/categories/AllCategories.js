@@ -9,7 +9,7 @@ function AllCategories() {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center" }}>
         All Categories
       </Typography>
       <ul
@@ -18,6 +18,7 @@ function AllCategories() {
           flexWrap: "wrap",
           listStyle: "none",
           padding: 0,
+          justifyContent: "center",
         }}
       >
         {categories.map((category) => (
