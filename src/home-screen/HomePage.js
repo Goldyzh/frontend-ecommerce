@@ -4,7 +4,7 @@ import CategoriesNavbar from "../categories/CategoriesNavbar";
 import React, { useMemo, useContext } from "react";
 import { checkCurrentPath } from "../utilities/functions";
 import ProductCard from "../prodcuts/ProductCard";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { ProductsContext } from "../contexts/ProductsContext";
 import { CategoriesContext } from "../contexts/CategoriesContext";
 
@@ -46,7 +46,10 @@ function HomePage() {
       <>
         {!checkCurrentPath("/all-categories", location.pathname) &&
           categories.length > 5 && (
-            <li className="renderCategories">
+            <li
+              className="renderCategories"
+              style={{ flexShrink: 0, minWidth: "fit-content" }}
+            >
               <CategoriesNavbar
                 name="Show More"
                 link="/all-categories"
@@ -55,7 +58,11 @@ function HomePage() {
             </li>
           )}
         {categoriesToDisplay.map((category) => (
-          <li key={category._id} className="renderCategories">
+          <li
+            key={category._id}
+            className="renderCategories"
+            style={{ flexShrink: 0, minWidth: "fit-content" }}
+          >
             <CategoriesNavbar
               name={category.name}
               link={`/categories/${category.slug}`}
@@ -81,18 +88,50 @@ function HomePage() {
             paddingTop: "10px",
           }}
         >
-          <Typography style={{ marginLeft: "170px" }} variant="h4">
+          <Typography
+            sx={{
+              textAlign: "center",
+            }}
+            variant="h4"
+          >
             Categories
           </Typography>
 
-          <ul className={`Categories ${isHome ? "is-home" : ""}`} style={{}}>
+          <Box
+            component="ul"
+            className={`Categories ${isHome ? "is-home" : ""}`}
+            sx={{
+              display: "flex",
+              overflowX: { xs: "auto", md: "visible" },
+              flexWrap: { xs: "nowrap", md: "wrap" },
+              justifyContent: { xs: "flex-start", md: "center" },
+              width: "100%",
+              padding: 2,
+              margin: 0,
+              listStyle: "none",
+              "&::-webkit-scrollbar": { display: "none" },
+              scrollbarWidth: "none",
+              gap: 2,
+            }}
+          >
             {typeof renderCategories === "function" ? renderCategories() : null}
-          </ul>
+          </Box>
         </div>
       )}
       {/* categories */}
 
       {/* Most Sold */}
+
+      <Typography
+        sx={{
+          textAlign: "center",
+          mt: 4,
+          mb: 2,
+        }}
+        variant="h4"
+      >
+        Most Sold
+      </Typography>
 
       <div className="MostSoldHomePageContainer">
         <button
@@ -102,10 +141,6 @@ function HomePage() {
           Show More
         </button>
         <div className="MostSoldHomePage">
-          <Typography style={{ marginRight: "90px" }} variant="h4">
-            Most Sold
-          </Typography>
-
           <ProductCard sortedProducts={topFourMostSoldProducts} />
         </div>
       </div>

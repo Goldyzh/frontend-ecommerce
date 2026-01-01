@@ -67,6 +67,24 @@
   flex-direction: column;
 }
 
+@media (min-width: 601px) {
+  .MostSoldHomePageContainer {
+    position: relative;
+    justify-content: center;
+    padding-left: 200px;
+  }
+  .showMoreButton {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+  }
+  .MostSoldHomePage {
+    padding-left: 0;
+  }
+}
+
 .MostSoldHomePageContainer {
   display: flex;
   flex-direction: row;
@@ -75,13 +93,24 @@
   margin-right: 0px;
 }
 
+@media (max-width: 600px) {
+  .MostSoldHomePageContainer {
+    flex-direction: column-reverse;
+  }
+}
+
 .MostSoldHomePage {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 30px;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .MostSoldHomePage {
+    padding-left: 0;
+  }
 }
 
 .showMoreButton {

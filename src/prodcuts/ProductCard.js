@@ -67,7 +67,15 @@ export default function ProductCard({
       return null; // Or a loading indicator, or a message
     }
     return products.map((product) => (
-      <Grid item key={product._id} xs={12} sm={3} md={3} lg={3}>
+      <Grid
+        item
+        key={product._id}
+        xs={12}
+        sm={3}
+        md={3}
+        lg={3}
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
         <Card
           sx={{
             width: fixedSize ? 320 : "100%",
@@ -125,7 +133,7 @@ export default function ProductCard({
   };
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} justifyContent="center">
       {renderProducts()}
     </Grid>
   );
