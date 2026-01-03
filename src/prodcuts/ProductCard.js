@@ -19,7 +19,7 @@ import { ProductsContext } from "../contexts/ProductsContext";
 
 export const renderProductRoute = (products) => {
   if (!Array.isArray(products) || products.length === 0) {
-    return null; // Or a loading indicator, or a message
+    return null;
   }
   return products.map((product) => (
     <Route
@@ -64,7 +64,7 @@ export default function ProductCard({
 
   const renderProducts = () => {
     if (!Array.isArray(products) || products.length === 0) {
-      return null; // Or a loading indicator, or a message
+      return null;
     }
     return products.map((product) => (
       <Grid

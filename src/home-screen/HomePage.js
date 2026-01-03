@@ -34,7 +34,7 @@ function HomePage() {
 
   const renderCategories = () => {
     if (!Array.isArray(categories) || categories.length === 0) {
-      return null; // Or a loading indicator, or a message
+      return null;
     }
     const categoriesToDisplay = checkCurrentPath(
       "/all-categories",
@@ -66,7 +66,7 @@ function HomePage() {
             <CategoriesNavbar
               name={category.name}
               link={`/categories/${category.slug}`}
-              image={isHome ? category.image : null}
+              image={category.image}
             />
           </li>
         ))}
@@ -74,7 +74,7 @@ function HomePage() {
     );
   };
 
-  const showAllProductsByMostSold = (products) => {
+  const showAllProductsByMostSold = () => {
     navigate("/most-sold-products");
   };
 
@@ -136,7 +136,7 @@ function HomePage() {
       <div className="MostSoldHomePageContainer">
         <button
           className="showMoreButton"
-          onClick={() => showAllProductsByMostSold(products)}
+          onClick={() => showAllProductsByMostSold()}
         >
           Show More
         </button>

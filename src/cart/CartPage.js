@@ -22,7 +22,6 @@ const CartItem = ({ item, updateCount, removeFromCart }) => {
   };
 
   useEffect(() => {
-    // If item.product is just an ID string, fetch the details
     if (typeof item.product === "string") {
       const fetchProducts = async () => {
         try {
@@ -36,13 +35,12 @@ const CartItem = ({ item, updateCount, removeFromCart }) => {
       };
       fetchProducts();
     } else {
-      // If it's already an object, use it directly
       setProductData(item.product);
     }
   }, [item.product]);
 
   if (!productData) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (
@@ -56,7 +54,7 @@ const CartItem = ({ item, updateCount, removeFromCart }) => {
     />
   );
 };
-
+// ---------------------------------------------------
 export default function CartPage() {
   const {
     cart,

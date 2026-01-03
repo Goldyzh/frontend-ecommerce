@@ -13,14 +13,13 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 import { hostname } from "./settings";
 import axios from "axios";
-import { ProductsContext } from "./contexts/ProductsContext";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Paper from "@mui/material/Paper";
 import { UserContext } from "./contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
@@ -68,7 +67,7 @@ export default function PrimarySearchAppBar() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [suggestions, setSuggestions] = React.useState([]);
   const [showSuggestions, setShowSuggestions] = React.useState(false);
-  const { setProducts } = React.useContext(ProductsContext);
+  const debounceTimeout = useRef(null);
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(UserContext);
@@ -91,17 +90,9 @@ export default function PrimarySearchAppBar() {
     navigate("/login");
   };
 
-  const searchProducts = async (query) => {
-    try {
-      const response = await axios.get(
-        `${hostname}/api/v1/products?keyword=${query}`
-      );
-      setProducts(response.data.data);
-      navigate("/search-results");
-      setShowSuggestions(false);
-    } catch (error) {
-      console.error("Error searching products:", error);
-    }
+  const searchProducts = (query) => {
+    navigate(`/search-results?q=${encodeURIComponent(query)}`);
+    setShowSuggestions(false);
   };
 
   const handleSearchChange = async (e) => {
@@ -109,15 +100,21 @@ export default function PrimarySearchAppBar() {
     setSearchQuery(query);
 
     if (query.length > 0) {
-      try {
-        const response = await axios.get(
-          `${hostname}/api/v1/products?keyword=${query}`
-        );
-        setSuggestions(response.data.data.slice(0, 5));
-        setShowSuggestions(true);
-      } catch (error) {
-        console.error("Error fetching suggestions:", error);
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
       }
+
+      debounceTimeout.current = setTimeout(async () => {
+        try {
+          const response = await axios.get(
+            `${hostname}/api/v1/products?keyword=${query}`
+          );
+          setSuggestions(response.data.data.slice(0, 5));
+          setShowSuggestions(true);
+        } catch (error) {
+          console.error("Error fetching suggestions:", error);
+        }
+      }, 300);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);

@@ -135,7 +135,6 @@ export default function CartCard({
           </Typography>
         </Box>
 
-        {/* Total Price for Item (from image: 200 $) */}
         <Typography
           variant="h6"
           sx={{ fontWeight: "bold", minWidth: "80px", textAlign: "right" }}

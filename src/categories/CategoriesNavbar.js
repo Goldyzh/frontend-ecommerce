@@ -1,32 +1,15 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-
-function currentPathIsHome(link, currentPath) {
-  if (currentPath === link) {
-    return true;
-  } else {
-    return false;
-  }
-}
+import { Link } from "react-router-dom";
 
 export default function CategoriesNavbar({ name, link, image, onClick }) {
-  const [isActive, setIsActive] = React.useState(false);
-  const location = useLocation();
-
-  React.useEffect(() => {
-    if (link) {
-      setIsActive(currentPathIsHome(link, location.pathname));
-    }
-  }, [link, location.pathname]);
-
   const content = (
     <button
       style={{
         fontSize: "30px",
-        background: isActive ? "DodgerBlue" : "transparent",
+        background: "transparent",
         border: "none",
         cursor: "pointer",
-        color: isActive ? "white" : "gray",
+        color: "gray",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

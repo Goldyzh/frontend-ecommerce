@@ -17,17 +17,12 @@ function MostSoldProducts() {
     return sortedProducts;
   }, [products]);
 
-
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" gutterBottom>
         Most Sold Products
       </Typography>
-      <ul>
-        <li>
-          <ProductCard sortedProducts={MostSoldProductsList} fixedSize={true} />
-        </li>
-      </ul>
+      <ProductCard sortedProducts={MostSoldProductsList} fixedSize={true} />
     </Container>
   );
 }
