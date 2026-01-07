@@ -42,21 +42,27 @@ function HomePage() {
     )
       ? categories
       : categories.slice(0, 5);
+
+    let showMoreButton = null;
+    if (isHome) {
+      showMoreButton = (
+        <li
+          className="renderCategories"
+          style={{ flexShrink: 0, minWidth: "fit-content" }}
+        >
+          <CategoriesNavbar
+            name="Show More"
+            link="/all-categories"
+            image={null}
+          />
+        </li>
+      );
+    }
+
     return (
       <>
-        {!checkCurrentPath("/all-categories", location.pathname) &&
-          categories.length > 5 && (
-            <li
-              className="renderCategories"
-              style={{ flexShrink: 0, minWidth: "fit-content" }}
-            >
-              <CategoriesNavbar
-                name="Show More"
-                link="/all-categories"
-                image={null}
-              />
-            </li>
-          )}
+        {showMoreButton}
+
         {categoriesToDisplay.map((category) => (
           <li
             key={category._id}
