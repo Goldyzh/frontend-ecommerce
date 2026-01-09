@@ -97,6 +97,12 @@ export default function PrimarySearchAppBar() {
 
   const handleSearchChange = async (e) => {
     const query = e.target.value;
+
+    const hasPotentialXSS = /<\s*script|on\w+\s*=|javascript:/i.test(query);
+    if (hasPotentialXSS) {
+      return;
+    }
+
     setSearchQuery(query);
 
     if (query.length > 0) {
@@ -107,7 +113,7 @@ export default function PrimarySearchAppBar() {
       debounceTimeout.current = setTimeout(async () => {
         try {
           const response = await axios.get(
-            `${hostname}/api/v1/products?keyword=${query}`
+            `${hostname}/api/v1/products?keyword=${encodeURIComponent(query)}`
           );
           setSuggestions(response.data.data.slice(0, 5));
           setShowSuggestions(true);
