@@ -22,6 +22,8 @@ import { UserContext } from "./contexts/UserContext";
 import { useContext, useRef } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import validator from 'validator';
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -98,12 +100,14 @@ export default function PrimarySearchAppBar() {
   const handleSearchChange = async (e) => {
     const query = e.target.value;
 
-    const hasPotentialXSS = /<\s*script|on\w+\s*=|javascript:/i.test(query);
-    if (hasPotentialXSS) {
-      return;
-    }
+    // const hasPotentialXSS = /<\s*script|on\w+\s*=|javascript:/i.test(query);
+    // if (hasPotentialXSS) {
+    //   return;
+    // }
 
-    setSearchQuery(query);
+    const cleanQuery = validator.escape(query);
+
+    setSearchQuery(cleanQuery);
 
     if (query.length > 0) {
       if (debounceTimeout.current) {
@@ -113,7 +117,7 @@ export default function PrimarySearchAppBar() {
       debounceTimeout.current = setTimeout(async () => {
         try {
           const response = await axios.get(
-            `${hostname}/api/v1/products?keyword=${encodeURIComponent(query)}`
+            `${hostname}/api/v1/products?keyword=${encodeURIComponent(cleanQuery)}`
           );
           setSuggestions(response.data.data.slice(0, 5));
           setShowSuggestions(true);
